@@ -139,19 +139,6 @@ a { color: inherit; text-decoration: none; }
   gap: 10px;
 }
 
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: var(--blue);
-  color: white;
-  font-weight: 800;
-  font-size: 14px;
-  border-radius: 4px;
-}
-
 .brand-suffix {
   font-size: 11px;
   font-weight: 600;
@@ -292,168 +279,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 .btn-secondary:hover { color: var(--blue); border-color: var(--blue); }
-
-/* HERO VISUAL */
-.hero-visual {
-  margin-top: 64px;
-  border: 1px solid rgba(10,14,26,0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  background: white;
-  box-shadow:
-    0 1px 0 rgba(10,14,26,0.04),
-    0 30px 60px -20px rgba(10,14,26,0.15);
-}
-
-.mockup-header {
-  background: var(--paper-warm);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid rgba(10,14,26,0.08);
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.mockup-dots { display: flex; gap: 6px; }
-
-.mockup-dots span {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-}
-
-.mockup-dots span:nth-child(1) { background: #ff5f56; }
-.mockup-dots span:nth-child(2) { background: #ffbd2e; }
-.mockup-dots span:nth-child(3) { background: #27c93f; }
-
-.mockup-url {
-  margin-left: 12px;
-  background: white;
-  padding: 4px 12px;
-  border-radius: 100px;
-  border: 1px solid rgba(10,14,26,0.08);
-}
-
-.mockup-body {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  min-height: 380px;
-}
-
-.mockup-input {
-  padding: 32px;
-  border-right: 1px solid rgba(10,14,26,0.08);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.mockup-label {
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-bottom: 12px;
-}
-
-.mockup-prompt {
-  font-family: var(--serif);
-  font-size: 22px;
-  line-height: 1.4;
-  font-style: italic;
-  font-weight: 500;
-  position: relative;
-  padding-left: 20px;
-  border-left: 3px solid var(--blue);
-}
-
-.mockup-prompt::after {
-  content: '|';
-  color: var(--blue);
-  animation: cursor 1s steps(2) infinite;
-  font-style: normal;
-}
-
-@keyframes cursor {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-.mockup-arrow {
-  position: relative;
-  margin: 24px 0;
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.mockup-arrow::before {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(10,14,26,0.15);
-}
-
-.mockup-output {
-  padding: 16px 20px;
-  background: var(--paper);
-  border-radius: 4px;
-  border: 1px solid rgba(10,14,26,0.08);
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.mockup-output strong { color: var(--ink); display: block; margin-bottom: 4px; }
-
-.mockup-viewer {
-  background: linear-gradient(135deg, #f8f8f4 0%, #e8e8e0 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.mockup-viewer::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(10,14,26,0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(10,14,26,0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.bolt-svg {
-  position: relative;
-  z-index: 1;
-  filter: drop-shadow(0 12px 24px rgba(10,14,26,0.15));
-}
-
-.viewer-corner {
-  position: absolute;
-  font-family: var(--mono);
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(10,14,26,0.4);
-  z-index: 2;
-}
-
-.viewer-corner.tl { top: 12px; left: 12px; }
-.viewer-corner.tr { top: 12px; right: 12px; }
-.viewer-corner.bl { bottom: 12px; left: 12px; }
-.viewer-corner.br { bottom: 12px; right: 12px; }
 
 /* SECTION HEADERS */
 .section-eyebrow {
@@ -936,8 +761,6 @@ a { color: inherit; text-decoration: none; }
   .container { padding: 0 24px; }
   .hero { padding: 48px 0 56px; }
   .hero h1 { font-size: 48px; }
-  .mockup-body { grid-template-columns: 1fr; }
-  .mockup-input { border-right: none; border-bottom: 1px solid rgba(10,14,26,0.08); }
   .how-steps, .cases-grid { grid-template-columns: 1fr; }
   .why-grid, .crosspromo-grid { grid-template-columns: 1fr; gap: 32px; }
   .pricing-card { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
