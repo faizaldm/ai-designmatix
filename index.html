@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designmatix AI — Engineering tools for the AI era</title>
+<meta name="description" content="Designmatix AI builds tools that bring artificial intelligence to engineering and design workflows. Explore our AI-powered products including Text-to-CAD.">
+
+<meta property="og:title" content="Designmatix AI — Engineering tools for the AI era">
+<meta property="og:description" content="AI-powered tools for engineering and design workflows from Designmatix Ltd.">
+<meta property="og:url" content="https://ai.designmatix.co.uk">
+<meta property="og:type" content="website">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Designmatix AI">
+<meta name="twitter:description" content="AI-powered tools for engineering and design workflows.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #1E3AE8;
+  --blue-dark: #1730bd;
+  --blue-soft: #eef0ff;
+  --red: #E8251E;
+  --ink: #0a0e1a;
+  --paper: #fafaf7;
+  --paper-warm: #f3f1ea;
+  --line: #1a1f2e;
+  --muted: #6b7280;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter Tight', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, section, header, footer { position: relative; z-index: 1; }
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ============== STICKY BANNER (drives to main site) ============== */
+.sticky-banner {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 0;
+  font-size: 14px;
+  position: relative;
+  z-index: 50;
+}
+
+.sticky-banner .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sticky-banner-text {
+  font-family: var(--sans);
+  color: rgba(250,250,247,0.85);
+}
+
+.sticky-banner-link {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sticky-banner-link:hover {
+  background: white;
+  color: var(--ink);
+  border-color: white;
+}
+
+/* ============== TOP BAR ============== */
+.topbar {
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+  padding: 18px 0;
+  background: rgba(250,250,247,0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--blue);
+  color: white;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  border-radius: 4px;
+}
+
+.brand-suffix {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  padding: 3px 8px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+  margin-left: 4px;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.topbar-nav a {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.topbar-nav a:hover { color: var(--ink); }
+
+/* ============== HERO ============== */
+.hero {
+  padding: 100px 0 80px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 32px;
+  padding: 6px 12px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(44px, 6vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+  margin-bottom: 32px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.hero-lead {
+  font-family: var(--sans);
+  font-size: clamp(18px, 1.4vw, 21px);
+  line-height: 1.5;
+  max-width: 56ch;
+  color: rgba(10,14,26,0.75);
+}
+
+/* ============== PRODUCTS ============== */
+.products {
+  padding: 60px 0 120px;
+}
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+  margin-bottom: 64px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.product-card {
+  display: block;
+  background: white;
+  padding: 48px;
+  border: 1px solid rgba(10,14,26,0.1);
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card.live:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -16px rgba(30,58,232,0.15);
+  border-color: var(--blue);
+}
+
+.product-card.coming-soon {
+  background: var(--paper-warm);
+  cursor: default;
+}
+
+.product-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+}
+
+.product-status.live {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.product-status.live::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+}
+
+.product-status.soon {
+  background: rgba(10,14,26,0.06);
+  color: var(--muted);
+}
+
+.product-card h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.product-card p {
+  color: rgba(10,14,26,0.7);
+  font-size: 16px;
+  line-height: 1.55;
+  margin-bottom: 24px;
+}
+
+.product-card .arrow {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-card.live:hover .arrow svg { transform: translateX(4px); }
+
+.product-card .arrow svg { transition: transform 0.2s; }
+
+.product-visual {
+  margin-top: 24px;
+  height: 140px;
+  background: linear-gradient(135deg, #f8f8f4 0%, #e8e8e0 100%);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(10,14,26,0.05);
+}
+
+.product-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.04) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.product-visual svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 6px 12px rgba(10,14,26,0.12));
+}
+
+/* ============== ABOUT / WHY ============== */
+.about {
+  padding: 100px 0;
+  background: var(--paper-warm);
+  border-top: 1px solid rgba(10,14,26,0.08);
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-content p {
+  margin-bottom: 24px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(10,14,26,0.8);
+}
+
+.about-content p:last-child { margin-bottom: 0; }
+
+.about-cta {
+  margin-top: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px 28px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.about-cta:hover {
+  background: var(--blue);
+  transform: translateY(-1px);
+}
+
+/* ============== AUTOMATION PRODUCTS (cross-promo to main site) ============== */
+.automation {
+  padding: 100px 0;
+}
+
+.automation-intro {
+  margin-bottom: 64px;
+  max-width: 60ch;
+}
+
+.automation-intro p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(10,14,26,0.75);
+  margin-top: 24px;
+}
+
+.automation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.automation-card {
+  background: white;
+  padding: 32px;
+  border: 1px solid rgba(10,14,26,0.1);
+  border-radius: 8px;
+  display: block;
+  transition: all 0.2s;
+}
+
+.automation-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px -16px rgba(30,58,232,0.15);
+}
+
+.automation-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  color: var(--blue);
+}
+
+.automation-card h4 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.automation-card p {
+  color: rgba(10,14,26,0.65);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.automation-cta-row {
+  text-align: center;
+  margin-top: 32px;
+}
+
+/* ============== FOOTER ============== */
+.footer {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding: 64px 0 32px;
+  font-size: 14px;
+  color: var(--muted);
+  background: white;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-tagline {
+  max-width: 36ch;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.footer-contact {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.footer-contact a { color: var(--muted); }
+.footer-contact a:hover { color: var(--blue); }
+
+.footer h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 10px; }
+.footer a { color: var(--muted); transition: color 0.2s; }
+.footer a:hover { color: var(--blue); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+}
+
+/* ============== RESPONSIVE ============== */
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .hero { padding: 64px 0 48px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .automation-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .topbar-nav { display: none; }
+  .sticky-banner-text { display: none; }
+  .sticky-banner .container { justify-content: center; }
+}
+
+@media (max-width: 540px) {
+  .footer-top { grid-template-columns: 1fr; }
+  .product-card { padding: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP BANNER -->
+<div class="sticky-banner">
+  <div class="container">
+    <span class="sticky-banner-text">Looking for our CAD automation services & SolidWorks products?</span>
+    <a href="https://designmatix.co.uk" class="sticky-banner-link">
+      Visit our main site
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="container">
+    <a href="/" class="brand">
+      <span class="brand-mark">DX</span>
+      <span>Designmatix</span>
+      <span class="brand-suffix">AI</span>
+    </a>
+    <nav class="topbar-nav">
+      <a href="/texttocad/">Text-to-CAD</a>
+      <a href="https://designmatix.co.uk">Main Site</a>
+      <a href="https://designmatix.co.uk/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Designmatix AI · Now in beta</div>
+
+    <h1>Engineering tools for the <em>AI era</em>.</h1>
+
+    <p class="hero-lead">
+      Designmatix AI brings artificial intelligence into engineering and design workflows. We're building tools that understand intent — not just inputs — so engineers can focus on what matters: creating, not configuring.
+    </p>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+  <div class="container">
+    <div class="section-eyebrow">AI Products</div>
+    <h2 class="section-title">Available now.</h2>
+
+    <div class="product-grid">
+      <a href="/texttocad/" class="product-card live">
+        <span class="product-status live">Live · Free Beta</span>
+        <h3>Text-to-CAD</h3>
+        <p>Type a description in plain English. Get a real, manufacturable 3D model in seconds. Outputs ISO 10303 STEP files that open in any CAD package.</p>
+        <span class="arrow">
+          Explore Text-to-CAD
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <div class="product-visual">
+          <svg width="100" height="100" viewBox="0 0 220 220">
+            <defs>
+              <linearGradient id="boltMetal2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#9ba3b4"/>
+                <stop offset="50%" stop-color="#5d6478"/>
+                <stop offset="100%" stop-color="#3a4054"/>
+              </linearGradient>
+              <linearGradient id="boltShank2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#8088a0"/>
+                <stop offset="100%" stop-color="#454c60"/>
+              </linearGradient>
+            </defs>
+            <polygon points="60,40 110,20 160,40 160,80 110,100 60,80" fill="url(#boltMetal2)" stroke="#2a3040" stroke-width="1.5"/>
+            <polygon points="60,40 110,60 160,40 110,20" fill="#aab2c4" stroke="#2a3040" stroke-width="1.5"/>
+            <line x1="110" y1="60" x2="110" y2="100" stroke="#2a3040" stroke-width="1"/>
+            <rect x="92" y="98" width="36" height="100" fill="url(#boltShank2)" stroke="#2a3040" stroke-width="1.5"/>
+            <g stroke="#2a3040" stroke-width="0.8" opacity="0.7">
+              <line x1="92" y1="115" x2="128" y2="118"/>
+              <line x1="92" y1="135" x2="128" y2="138"/>
+              <line x1="92" y1="155" x2="128" y2="158"/>
+              <line x1="92" y1="175" x2="128" y2="178"/>
+            </g>
+            <polygon points="92,198 110,210 128,198" fill="url(#boltShank2)" stroke="#2a3040" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </a>
+
+      <div class="product-card coming-soon">
+        <span class="product-status soon">In Development</span>
+        <h3>More AI tools coming</h3>
+        <p>Designmatix AI is just getting started. We're exploring intelligent automation for design review, drawing analysis, and engineering workflows. Want early access? Get on the list.</p>
+        <a href="https://designmatix-ltd.kit.com/2ea67ac7f4" target="_blank" rel="noopener" class="arrow">
+          Join the update list
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="product-visual" style="background: linear-gradient(135deg, #eef0ff 0%, #e0e4ff 100%);">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="30" stroke="#1E3AE8" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.5"/>
+            <circle cx="40" cy="40" r="18" stroke="#1E3AE8" stroke-width="1.5" opacity="0.7"/>
+            <circle cx="40" cy="40" r="6" fill="#1E3AE8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / WHY -->
+<section class="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <div class="section-eyebrow">About</div>
+        <h2 class="section-title" style="margin-bottom: 0;">Part of Designmatix's broader portfolio.</h2>
+      </div>
+      <div class="about-content">
+        <p>
+          Designmatix AI is the artificial intelligence division of <a href="https://designmatix.co.uk" style="color: var(--blue); text-decoration: underline; text-underline-offset: 2px;">Designmatix Ltd.</a> — a UK-based design automation company building products that eliminate repetitive engineering work.
+        </p>
+        <p>
+          Our existing portfolio includes script-based automation for SolidWorks, AutoCAD, Inventor, and Revit — tools used by manufacturers in oil & gas, power generation, and logistics. The AI division extends that mission with a new generation of tools that understand natural language intent.
+        </p>
+        <p>
+          Whether you're looking for our traditional CAD automation products or our new AI tools, we'd love to help.
+        </p>
+        <a href="https://designmatix.co.uk" class="about-cta">
+          Visit designmatix.co.uk
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTOMATION PRODUCTS (cross-promo) -->
+<section class="automation">
+  <div class="container">
+    <div class="automation-intro">
+      <div class="section-eyebrow">Our other products</div>
+      <h2 class="section-title">CAD automation, beyond AI.</h2>
+      <p>
+        Most of Designmatix's revenue comes from script-based design automation for established CAD packages. These products handle parametric configurations, drawing generation, and BOM management at scale.
+      </p>
+    </div>
+
+    <div class="automation-grid">
+      <a href="https://designmatix.co.uk/product/autocad-workflow-management-web/" class="automation-card">
+        <svg class="automation-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M8 8h32v32H8z" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 18h32M18 8v32" stroke="currentColor" stroke-width="2"/>
+          <circle cx="13" cy="13" r="2" fill="currentColor"/>
+        </svg>
+        <h4>DXEMS</h4>
+        <p>Engineering Management System — automate CAD-based engineering change workflows. From £39/month.</p>
+      </a>
+
+      <a href="https://designmatix.co.uk/product/storage-tank-web-based/" class="automation-card">
+        <svg class="automation-icon" viewBox="0 0 48 48" fill="none">
+          <ellipse cx="24" cy="10" rx="16" ry="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M8 10v28c0 2 7 4 16 4s16-2 16-4V10" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h4>Storage Tank</h4>
+        <p>Web-based design automation for sheet-metal shop-fabricated storage tanks. SolidWorks integration.</p>
+      </a>
+
+      <a href="https://designmatix.co.uk/product/attenuators-design-web-based-saas/" class="automation-card">
+        <svg class="automation-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M8 14h32v20H8z" stroke="currentColor" stroke-width="2"/>
+          <path d="M14 14v20M20 14v20M26 14v20M32 14v20" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h4>Attenuator Designer</h4>
+        <p>Acoustic attenuator design for diesel generators and HVAC. Generates configurations + drawings.</p>
+      </a>
+    </div>
+
+    <div class="automation-cta-row">
+      <a href="https://designmatix.co.uk" class="about-cta">
+        See all automation products
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">DX</span>
+          <span>Designmatix</span>
+          <span class="brand-suffix">AI</span>
+        </div>
+        <p class="footer-tagline">Engineering tools for the AI era. Part of Designmatix Ltd., UK-based design automation.</p>
+        <div class="footer-contact">
+          <a href="mailto:support@designmatix.co.uk">support@designmatix.co.uk</a><br>
+          UK +44 (0) 20 8865 1947
+        </div>
+      </div>
+      <div>
+        <h4>AI Products</h4>
+        <ul>
+          <li><a href="/texttocad/">Text-to-CAD</a></li>
+          <li><a href="https://app.designmatix.co.uk">Launch app</a></li>
+          <li><a href="https://designmatix-ltd.kit.com/2ea67ac7f4" target="_blank" rel="noopener">Get updates</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Main Site</h4>
+        <ul>
+          <li><a href="https://designmatix.co.uk">Home</a></li>
+          <li><a href="https://designmatix.co.uk/about-us/">About</a></li>
+          <li><a href="https://designmatix.co.uk/blog/">Blog</a></li>
+          <li><a href="https://designmatix.co.uk/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li>Designmatix Ltd.</li>
+          <li>UK Co. #12697280</li>
+          <li>71-75 Shelton St,<br>London WC2H 9JQ</li>
+          <li><a href="https://github.com/faizaldm/texttocad/blob/main/PRIVACY.md" target="_blank" rel="noopener">Privacy Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Designmatix Ltd. All rights reserved.</span>
+      <span><a href="https://designmatix.co.uk">designmatix.co.uk</a> · <a href="https://app.designmatix.co.uk">app.designmatix.co.uk</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

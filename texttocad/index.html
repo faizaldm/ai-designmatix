@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designmatix Text-to-CAD — Type a description, get a 3D model</title>
+<meta name="description" content="Designmatix Text-to-CAD turns natural language into engineering-ready STEP files. Type 'hex bolt M10, 50mm shank' and get a real 3D model you can open in any CAD tool.">
+
+<meta property="og:title" content="Designmatix Text-to-CAD">
+<meta property="og:description" content="Type a description, get a real 3D CAD model. Engineering-ready STEP files in seconds.">
+<meta property="og:url" content="https://ai.designmatix.co.uk/texttocad">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ai.designmatix.co.uk/texttocad/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Designmatix Text-to-CAD">
+<meta name="twitter:description" content="Type a description, get a real 3D CAD model.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #1E3AE8;
+  --blue-dark: #1730bd;
+  --blue-soft: #eef0ff;
+  --red: #E8251E;
+  --ink: #0a0e1a;
+  --paper: #fafaf7;
+  --paper-warm: #f3f1ea;
+  --line: #1a1f2e;
+  --muted: #6b7280;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter Tight', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, section, header, footer { position: relative; z-index: 1; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* STICKY BANNER */
+.sticky-banner {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 0;
+  font-size: 14px;
+  position: relative;
+  z-index: 50;
+}
+
+.sticky-banner .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sticky-banner-text { color: rgba(250,250,247,0.85); }
+
+.sticky-banner-link {
+  font-weight: 600;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sticky-banner-link:hover {
+  background: white;
+  color: var(--ink);
+}
+
+/* TOPBAR */
+.topbar {
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+  padding: 18px 0;
+  background: rgba(250,250,247,0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--blue);
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.brand-suffix {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  padding: 3px 8px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+  margin-left: 4px;
+}
+
+.topbar-cta {
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.topbar-cta:hover { background: var(--blue); }
+
+.breadcrumb {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb a { color: var(--blue); }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* HERO */
+.hero { padding: 80px 0 80px; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 32px;
+  padding: 6px 12px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 14ch;
+  margin-bottom: 32px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.hero-lead {
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  max-width: 56ch;
+  color: rgba(10,14,26,0.75);
+  margin-bottom: 48px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 18px 32px;
+  background: var(--blue);
+  color: white;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 2px solid var(--blue);
+}
+
+.btn-primary:hover {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px rgba(30,58,232,0.4);
+}
+
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(4px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+  padding: 12px 4px;
+  border-bottom: 1.5px solid var(--ink);
+  transition: color 0.2s;
+}
+
+.btn-secondary:hover { color: var(--blue); border-color: var(--blue); }
+
+/* HERO VISUAL */
+.hero-visual {
+  margin-top: 64px;
+  border: 1px solid rgba(10,14,26,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow:
+    0 1px 0 rgba(10,14,26,0.04),
+    0 30px 60px -20px rgba(10,14,26,0.15);
+}
+
+.mockup-header {
+  background: var(--paper-warm);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mockup-dots { display: flex; gap: 6px; }
+
+.mockup-dots span {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.mockup-dots span:nth-child(1) { background: #ff5f56; }
+.mockup-dots span:nth-child(2) { background: #ffbd2e; }
+.mockup-dots span:nth-child(3) { background: #27c93f; }
+
+.mockup-url {
+  margin-left: 12px;
+  background: white;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(10,14,26,0.08);
+}
+
+.mockup-body {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 380px;
+}
+
+.mockup-input {
+  padding: 32px;
+  border-right: 1px solid rgba(10,14,26,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mockup-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.mockup-prompt {
+  font-family: var(--serif);
+  font-size: 22px;
+  line-height: 1.4;
+  font-style: italic;
+  font-weight: 500;
+  position: relative;
+  padding-left: 20px;
+  border-left: 3px solid var(--blue);
+}
+
+.mockup-prompt::after {
+  content: '|';
+  color: var(--blue);
+  animation: cursor 1s steps(2) infinite;
+  font-style: normal;
+}
+
+@keyframes cursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.mockup-arrow {
+  position: relative;
+  margin: 24px 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mockup-arrow::before {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(10,14,26,0.15);
+}
+
+.mockup-output {
+  padding: 16px 20px;
+  background: var(--paper);
+  border-radius: 4px;
+  border: 1px solid rgba(10,14,26,0.08);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mockup-output strong { color: var(--ink); display: block; margin-bottom: 4px; }
+
+.mockup-viewer {
+  background: linear-gradient(135deg, #f8f8f4 0%, #e8e8e0 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.mockup-viewer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bolt-svg {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 12px 24px rgba(10,14,26,0.15));
+}
+
+.viewer-corner {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(10,14,26,0.4);
+  z-index: 2;
+}
+
+.viewer-corner.tl { top: 12px; left: 12px; }
+.viewer-corner.tr { top: 12px; right: 12px; }
+.viewer-corner.bl { bottom: 12px; left: 12px; }
+.viewer-corner.br { bottom: 12px; right: 12px; }
+
+/* SECTION HEADERS */
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--blue);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--blue);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+}
+
+.section-header { margin-bottom: 64px; }
+
+/* HOW IT WORKS */
+.how {
+  padding: 100px 0;
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 64px;
+}
+
+.how-step { position: relative; }
+
+.how-num {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--blue);
+  opacity: 0.15;
+  margin-bottom: -36px;
+}
+
+.how-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.how-desc {
+  color: rgba(10,14,26,0.7);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.how-desc code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+/* USE CASES */
+.cases {
+  padding: 100px 0;
+  background: var(--paper-warm);
+  border-top: 1px solid rgba(10,14,26,0.08);
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 64px;
+}
+
+.case-card {
+  background: var(--paper);
+  padding: 40px;
+  border: 1px solid rgba(10,14,26,0.08);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.case-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px -16px rgba(30,58,232,0.2);
+}
+
+.case-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  color: var(--blue);
+}
+
+.case-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.case-desc {
+  color: rgba(10,14,26,0.7);
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.case-example {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  padding-top: 16px;
+  border-top: 1px dashed rgba(10,14,26,0.15);
+}
+
+.case-example::before {
+  content: 'EXAMPLE: ';
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* WHY */
+.why { padding: 100px 0; }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.why-points { display: flex; flex-direction: column; gap: 32px; }
+
+.why-point {
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.why-point:last-child { border-bottom: none; padding-bottom: 0; }
+
+.why-point h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.why-point p {
+  color: rgba(10,14,26,0.7);
+  line-height: 1.6;
+}
+
+/* PRICING */
+.pricing {
+  padding: 100px 0;
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.pricing .section-eyebrow { color: #8aa0ff; }
+.pricing .section-eyebrow::before { background: #8aa0ff; }
+
+.pricing-card {
+  margin-top: 56px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 56px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.pricing-amount {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.pricing-amount span {
+  font-size: 24px;
+  color: rgba(250,250,247,0.5);
+  font-weight: 500;
+  font-style: italic;
+}
+
+.pricing-details ul { list-style: none; margin: 24px 0 0 0; }
+
+.pricing-details li {
+  padding: 12px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.pricing-details li:last-child { border-bottom: none; }
+
+.pricing-details li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--red);
+  margin-top: 8px;
+  transform: rotate(45deg);
+}
+
+.pricing-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(250,250,247,0.5);
+  margin-top: 24px;
+  line-height: 1.5;
+}
+
+/* FINAL CTA */
+.final-cta { padding: 120px 0; text-align: center; }
+
+.final-cta h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+  margin: 0 auto 32px;
+}
+
+.final-cta h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.final-cta-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 48px;
+}
+
+/* CROSS-PROMO TO MAIN SITE */
+.crosspromo {
+  padding: 80px 0;
+  background: var(--paper-warm);
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.crosspromo-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.crosspromo-content h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.crosspromo-content p {
+  color: rgba(10,14,26,0.7);
+  margin-bottom: 24px;
+}
+
+.crosspromo-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.crosspromo-cta:hover {
+  background: var(--blue);
+  transform: translateY(-1px);
+}
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding: 64px 0 32px;
+  font-size: 14px;
+  color: var(--muted);
+  background: white;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-tagline {
+  max-width: 36ch;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.footer-contact { font-size: 13px; line-height: 1.6; }
+
+.footer-contact a { color: var(--muted); }
+.footer-contact a:hover { color: var(--blue); }
+
+.footer h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 10px; }
+.footer a { color: var(--muted); transition: color 0.2s; }
+.footer a:hover { color: var(--blue); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .hero { padding: 48px 0 56px; }
+  .hero h1 { font-size: 48px; }
+  .mockup-body { grid-template-columns: 1fr; }
+  .mockup-input { border-right: none; border-bottom: 1px solid rgba(10,14,26,0.08); }
+  .how-steps, .cases-grid { grid-template-columns: 1fr; }
+  .why-grid, .crosspromo-grid { grid-template-columns: 1fr; gap: 32px; }
+  .pricing-card { grid-template-columns: 1fr; padding: 32px; gap: 32px; }
+  .pricing-amount { font-size: 64px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .topbar-cta { padding: 8px 14px; font-size: 13px; }
+  .sticky-banner-text { display: none; }
+  .sticky-banner .container { justify-content: center; }
+}
+
+@media (max-width: 540px) {
+  .hero h1 { font-size: 40px; }
+  .footer-top { grid-template-columns: 1fr; }
+  .btn-primary { width: 100%; justify-content: center; padding: 16px 24px; }
+  .btn-secondary { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY BANNER -->
+<div class="sticky-banner">
+  <div class="container">
+    <span class="sticky-banner-text">Looking for our CAD automation services & SolidWorks products?</span>
+    <a href="https://designmatix.co.uk" class="sticky-banner-link">
+      Visit our main site
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="container">
+    <a href="/" class="brand">
+      <span class="brand-mark">DX</span>
+      <span>Designmatix</span>
+      <span class="brand-suffix">AI</span>
+    </a>
+    <a href="https://app.designmatix.co.uk" class="topbar-cta" target="_blank" rel="noopener">Launch app →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/">Designmatix AI</a> / Text-to-CAD
+    </div>
+
+    <div class="hero-eyebrow">Now in beta · Free to use</div>
+
+    <h1>Type a description.<br>Get a <em>real</em><br>3D model.</h1>
+
+    <p class="hero-lead">
+      Designmatix Text-to-CAD turns natural language into engineering-ready STEP files. Describe what you need — bolts, brackets, sheet metal parts — and get a real, manufacturable 3D model in seconds. No CAD experience required.
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://app.designmatix.co.uk" class="btn-primary" target="_blank" rel="noopener">
+        Try it now
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">How it works</a>
+    </div>
+
+    <div class="hero-visual">
+      <div class="mockup-header">
+        <div class="mockup-dots"><span></span><span></span><span></span></div>
+        <div class="mockup-url">app.designmatix.co.uk</div>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-input">
+          <div>
+            <div class="mockup-label">DESIGN INPUT — natural language</div>
+            <div class="mockup-prompt">Hex bolt M10, 50mm shank length, 16mm head</div>
+          </div>
+          <div>
+            <div class="mockup-arrow">Generated</div>
+            <div class="mockup-output">
+              <strong>designmatix_a3f9c2.step</strong>
+              ISO 10303 · 1,847 faces · 12 KB
+            </div>
+          </div>
+        </div>
+        <div class="mockup-viewer">
+          <span class="viewer-corner tl">3D VIEWPORT</span>
+          <span class="viewer-corner tr">ISO</span>
+          <span class="viewer-corner bl">SCALE 1:1</span>
+          <span class="viewer-corner br">MM</span>
+          <svg class="bolt-svg" width="220" height="220" viewBox="0 0 220 220">
+            <defs>
+              <linearGradient id="boltMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#9ba3b4"/>
+                <stop offset="50%" stop-color="#5d6478"/>
+                <stop offset="100%" stop-color="#3a4054"/>
+              </linearGradient>
+              <linearGradient id="boltShank" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#8088a0"/>
+                <stop offset="100%" stop-color="#454c60"/>
+              </linearGradient>
+            </defs>
+            <polygon points="60,40 110,20 160,40 160,80 110,100 60,80" fill="url(#boltMetal)" stroke="#2a3040" stroke-width="1.5"/>
+            <polygon points="60,40 110,60 160,40 110,20" fill="#aab2c4" stroke="#2a3040" stroke-width="1.5"/>
+            <line x1="110" y1="60" x2="110" y2="100" stroke="#2a3040" stroke-width="1"/>
+            <rect x="92" y="98" width="36" height="100" fill="url(#boltShank)" stroke="#2a3040" stroke-width="1.5"/>
+            <g stroke="#2a3040" stroke-width="0.8" opacity="0.7">
+              <line x1="92" y1="115" x2="128" y2="118"/>
+              <line x1="92" y1="125" x2="128" y2="128"/>
+              <line x1="92" y1="135" x2="128" y2="138"/>
+              <line x1="92" y1="145" x2="128" y2="148"/>
+              <line x1="92" y1="155" x2="128" y2="158"/>
+              <line x1="92" y1="165" x2="128" y2="168"/>
+              <line x1="92" y1="175" x2="128" y2="178"/>
+              <line x1="92" y1="185" x2="128" y2="188"/>
+            </g>
+            <polygon points="92,198 110,210 128,198" fill="url(#boltShank)" stroke="#2a3040" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">Three steps. No setup. No software install.</h2>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-num">01</div>
+        <h3 class="how-title">Describe it</h3>
+        <p class="how-desc">
+          Type what you need in plain English. Geometry, dimensions, materials. Try <code>flanged cylinder, 50mm tall</code> or <code>L-bracket, 3mm steel</code>.
+        </p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">02</div>
+        <h3 class="how-title">Generate</h3>
+        <p class="how-desc">
+          Designmatix converts your description into Python CAD code, then builds the geometry using OpenCascade — the same engine that powers FreeCAD. Takes 5 to 15 seconds.
+        </p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">03</div>
+        <h3 class="how-title">Download</h3>
+        <p class="how-desc">
+          Get a real STEP file (ISO 10303) plus STL, ready to open in SolidWorks, Fusion 360, FreeCAD, or your slicer. Inspect the generated Python code if you want to tweak it further.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="cases">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">What it makes</div>
+      <h2 class="section-title">From fasteners to fixtures, in seconds.</h2>
+    </div>
+
+    <div class="cases-grid">
+      <div class="case-card">
+        <svg class="case-icon" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 4v8M24 36v8M4 24h8M36 24h8M9.86 9.86l5.66 5.66M32.48 32.48l5.66 5.66M9.86 38.14l5.66-5.66M32.48 15.52l5.66-5.66" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3 class="case-title">Fasteners & hardware</h3>
+        <p class="case-desc">Generate hex bolts, socket caps, threaded studs, and washers to standard or custom dimensions. Useful for assembly mockups or 3D printing fixtures.</p>
+        <div class="case-example">M8 socket cap screw, 30mm length, ISO 4762</div>
+      </div>
+
+      <div class="case-card">
+        <svg class="case-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M8 8h16v32H8z" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 24h16v16H24z" stroke="currentColor" stroke-width="2"/>
+          <circle cx="14" cy="14" r="2" fill="currentColor"/>
+          <circle cx="14" cy="34" r="2" fill="currentColor"/>
+          <circle cx="32" cy="32" r="2" fill="currentColor"/>
+        </svg>
+        <h3 class="case-title">Brackets & mounts</h3>
+        <p class="case-desc">L-brackets, mounting plates, gussets, and shelf supports — with mounting holes, fillets, and proper flanges. Specify thickness and hole pattern in the prompt.</p>
+        <div class="case-example">L-bracket, 80x60mm, 4mm steel, M5 holes</div>
+      </div>
+
+      <div class="case-card">
+        <svg class="case-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M4 16l20-12 20 12v16L24 44 4 32V16z" stroke="currentColor" stroke-width="2"/>
+          <path d="M4 16l20 12 20-12M24 28v16" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h3 class="case-title">Sheet metal parts</h3>
+        <p class="case-desc">Bent enclosures, flanges, and panels with proper bend radii and material thickness. Tracks aluminum, mild steel, stainless, and 6 other common materials.</p>
+        <div class="case-example">U-channel bracket, 100mm long, aluminum 2mm</div>
+      </div>
+
+      <div class="case-card">
+        <svg class="case-icon" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2"/>
+          <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 6v12M24 30v12M6 24h12M30 24h12" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <h3 class="case-title">Custom geometry</h3>
+        <p class="case-desc">Flanges, hubs, pulleys, gears, and any rotational or extruded part. The model writes real CadQuery Python — you can read and modify it if you know the language.</p>
+        <div class="case-example">Pulley with 6 spokes, 80mm OD, 8mm bore</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="section-header" style="margin-bottom: 0;">
+        <div class="section-eyebrow">Why bother</div>
+        <h2 class="section-title">Built for engineers who already know CAD.</h2>
+      </div>
+
+      <div class="why-points">
+        <div class="why-point">
+          <h3>Real STEP files, not pretty pictures.</h3>
+          <p>Output is ISO 10303 STEP — the format every CAD package reads. Open in SolidWorks, Fusion, FreeCAD, NX, Catia. Modify the geometry, add to assemblies, send to manufacturing. It's not a screenshot or a mesh; it's parametric solid geometry.</p>
+        </div>
+        <div class="why-point">
+          <h3>You see the code that built it.</h3>
+          <p>Every generation produces real CadQuery Python. If the result isn't quite right, inspect the code, learn what went wrong, edit and re-run. Designmatix is a starting point, not a black box.</p>
+        </div>
+        <div class="why-point">
+          <h3>Bring your own AI key.</h3>
+          <p>Designmatix is free to use — you provide your own Anthropic API key (around $5 of credits handles dozens of generations). Your key never leaves your browser session. We don't store it, log it, or use it ourselves.</p>
+        </div>
+        <div class="why-point">
+          <h3>Made in the UK, GDPR-compliant.</h3>
+          <p>Designmatix Ltd. is a UK-registered company (Companies House #12697280). Servers in Manchester. Privacy notice covering all data processors. Built to be the kind of tool you'd be comfortable showing your colleagues.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title" style="color: var(--paper);">One simple model.</h2>
+    </div>
+
+    <div class="pricing-card">
+      <div>
+        <div class="pricing-amount">£0<span>/month</span></div>
+        <p class="pricing-note">Designmatix Text-to-CAD is free during beta.<br>You bring your own Anthropic API key.</p>
+      </div>
+      <div class="pricing-details">
+        <h4 style="font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6;">What's included</h4>
+        <ul>
+          <li>Unlimited part generations (within Anthropic rate limits)</li>
+          <li>STEP and STL export, every part</li>
+          <li>Three.js 3D viewer with slicing tool</li>
+          <li>Generated CadQuery code, always inspectable</li>
+          <li>9 sheet metal materials, 6 generation modes</li>
+          <li>No accounts, no signup, no telemetry</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Stop typing prompts in <em>ChatGPT</em> hoping for STL files. Use the tool that <em>actually</em> generates engineering geometry.</h2>
+    <p style="font-size: 18px; color: var(--muted); max-width: 50ch; margin: 0 auto;">Five seconds to your first part. No signup. No software to install.</p>
+    <div class="final-cta-actions">
+      <a href="https://app.designmatix.co.uk" class="btn-primary" target="_blank" rel="noopener">
+        Launch Designmatix
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://designmatix-ltd.kit.com/2ea67ac7f4" target="_blank" rel="noopener" class="btn-secondary">Or join the update list</a>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS-PROMO TO MAIN SITE -->
+<section class="crosspromo">
+  <div class="container">
+    <div class="crosspromo-grid">
+      <div class="section-eyebrow">More from Designmatix</div>
+      <div class="crosspromo-content">
+        <h3>Looking for SolidWorks, AutoCAD, or Inventor automation?</h3>
+        <p>Text-to-CAD is one of several Designmatix products. Our flagship range includes script-based design automation for established CAD platforms — covering parametric assemblies, drawing generation, and engineering management workflows. Used by manufacturers in oil & gas, power generation, and logistics.</p>
+        <a href="https://designmatix.co.uk" class="crosspromo-cta">
+          Explore designmatix.co.uk
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">DX</span>
+          <span>Designmatix</span>
+          <span class="brand-suffix">AI</span>
+        </div>
+        <p class="footer-tagline">Engineering tools for the AI era. Part of Designmatix Ltd., UK-based design automation.</p>
+        <div class="footer-contact">
+          <a href="mailto:support@designmatix.co.uk">support@designmatix.co.uk</a><br>
+          UK +44 (0) 20 8865 1947
+        </div>
+      </div>
+      <div>
+        <h4>AI Products</h4>
+        <ul>
+          <li><a href="/">Designmatix AI</a></li>
+          <li><a href="/texttocad/">Text-to-CAD</a></li>
+          <li><a href="https://app.designmatix.co.uk">Launch app</a></li>
+          <li><a href="https://designmatix-ltd.kit.com/2ea67ac7f4" target="_blank" rel="noopener">Get updates</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Main Site</h4>
+        <ul>
+          <li><a href="https://designmatix.co.uk">Home</a></li>
+          <li><a href="https://designmatix.co.uk/about-us/">About</a></li>
+          <li><a href="https://designmatix.co.uk/blog/">Blog</a></li>
+          <li><a href="https://designmatix.co.uk/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li>Designmatix Ltd.</li>
+          <li>UK Co. #12697280</li>
+          <li>71-75 Shelton St,<br>London WC2H 9JQ</li>
+          <li><a href="https://github.com/faizaldm/texttocad/blob/main/PRIVACY.md" target="_blank" rel="noopener">Privacy Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Designmatix Ltd. All rights reserved.</span>
+      <span><a href="https://designmatix.co.uk">designmatix.co.uk</a> · <a href="https://app.designmatix.co.uk">app.designmatix.co.uk</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
