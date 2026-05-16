@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Notice &mdash; Designmatix Text-to-CAD</title>
+<meta name="description" content="Privacy notice for Designmatix Text-to-CAD. How we handle prompts, generated CAD files, hashed IPs, and waitlist email signups under UK GDPR. Effective 16 May 2026.">
+
+<meta property="og:title" content="Privacy Notice &mdash; Designmatix Text-to-CAD">
+<meta property="og:description" content="How Designmatix handles prompts, generated CAD files, and waitlist signups under UK GDPR.">
+<meta property="og:url" content="https://ai.designmatix.co.uk/text-to-cad/privacy">
+<meta property="og:type" content="article">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Privacy Notice &mdash; Designmatix Text-to-CAD">
+<meta name="twitter:description" content="How Designmatix handles prompts, generated CAD files, and waitlist signups under UK GDPR.">
+
+<link rel="canonical" href="https://ai.designmatix.co.uk/text-to-cad/privacy">
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#1E3AE8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #1E3AE8;
+  --blue-dark: #1730bd;
+  --blue-soft: #eef0ff;
+  --red: #E8251E;
+  --ink: #0a0e1a;
+  --paper: #fafaf7;
+  --paper-warm: #f3f1ea;
+  --line: #1a1f2e;
+  --muted: #6b7280;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter Tight', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, section, header, footer { position: relative; z-index: 1; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* STICKY BANNER */
+.sticky-banner {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 0;
+  font-size: 14px;
+  position: relative;
+  z-index: 50;
+}
+
+.sticky-banner .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sticky-banner-text { color: rgba(250,250,247,0.85); }
+
+.sticky-banner-link {
+  font-weight: 600;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sticky-banner-link:hover {
+  background: white;
+  color: var(--ink);
+}
+
+/* TOPBAR */
+.topbar {
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+  padding: 18px 0;
+  background: rgba(250,250,247,0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-suffix {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  padding: 3px 8px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+  margin-left: 4px;
+}
+
+.topbar-cta {
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.topbar-cta:hover { background: var(--blue); }
+
+/* BREADCRUMB */
+.breadcrumb {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a { color: var(--blue); }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* PRIVACY */
+.privacy {
+  padding: 64px 0 96px;
+}
+
+.privacy-wrap {
+  max-width: 75ch;
+}
+
+.privacy-header {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.privacy-header h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  max-width: 22ch;
+  margin-bottom: 28px;
+}
+
+.privacy-header h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.privacy-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px 32px;
+  padding: 20px 24px;
+  background: var(--paper-warm);
+  border-left: 2px solid var(--blue);
+}
+
+.privacy-meta-item dt {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.privacy-meta-item dd {
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.privacy-meta-item dd.mono {
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* PROSE */
+.privacy-content h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-top: 56px;
+  margin-bottom: 20px;
+}
+
+.privacy-content h2:first-child { margin-top: 0; }
+
+.privacy-content h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.privacy-content p {
+  margin-bottom: 16px;
+  color: rgba(10,14,26,0.85);
+  line-height: 1.65;
+}
+
+.privacy-content ul {
+  margin: 0 0 20px 0;
+  padding-left: 22px;
+}
+
+.privacy-content li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: rgba(10,14,26,0.85);
+}
+
+.privacy-content li::marker {
+  color: var(--blue);
+}
+
+.privacy-content a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  word-break: break-word;
+}
+
+.privacy-content a:hover { color: var(--blue-dark); }
+
+.privacy-content strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.privacy-content code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+  padding: 1px 6px;
+  border-radius: 3px;
+  word-break: break-word;
+}
+
+.privacy-content blockquote {
+  margin: 24px 0;
+  padding: 16px 20px;
+  background: var(--paper-warm);
+  border-left: 2px solid var(--muted);
+  color: rgba(10,14,26,0.75);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.privacy-content blockquote p { margin-bottom: 8px; }
+.privacy-content blockquote p:last-child { margin-bottom: 0; }
+
+.privacy-content hr {
+  margin: 48px 0;
+  border: none;
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+/* TABLES */
+.privacy-table-wrap {
+  overflow-x: auto;
+  margin: 16px 0 24px;
+  border: 1px solid rgba(10,14,26,0.1);
+  border-radius: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.privacy-content table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.privacy-content thead th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-align: left;
+  padding: 12px 16px;
+  background: var(--paper-warm);
+  border-bottom: 1px solid rgba(10,14,26,0.12);
+}
+
+.privacy-content tbody td {
+  padding: 14px 16px;
+  vertical-align: top;
+  color: rgba(10,14,26,0.85);
+  border-bottom: 1px solid rgba(10,14,26,0.06);
+  word-break: break-word;
+}
+
+.privacy-content tbody tr:last-child td { border-bottom: none; }
+
+.privacy-footer-note {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(10,14,26,0.08);
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.address-block {
+  font-style: normal;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding: 64px 0 32px;
+  font-size: 14px;
+  color: var(--muted);
+  background: white;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-tagline {
+  max-width: 36ch;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.footer-contact { font-size: 13px; line-height: 1.6; }
+.footer-contact a { color: var(--muted); }
+.footer-contact a:hover { color: var(--blue); }
+
+.footer h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 10px; }
+.footer a { color: var(--muted); transition: color 0.2s; }
+.footer a:hover { color: var(--blue); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .privacy { padding: 48px 0 72px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .topbar-cta { padding: 8px 14px; font-size: 13px; }
+  .sticky-banner-text { display: none; }
+  .sticky-banner .container { justify-content: center; }
+}
+
+@media (max-width: 540px) {
+  .privacy { padding: 40px 0 56px; }
+  .privacy-header { margin-bottom: 36px; padding-bottom: 24px; }
+  .privacy-header h1 { font-size: 32px; }
+  .privacy-content h2 { font-size: 22px; margin-top: 40px; }
+  .privacy-content h3 { font-size: 18px; margin-top: 24px; }
+  .privacy-meta { padding: 16px 18px; }
+  .footer-top { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY BANNER -->
+<div class="sticky-banner">
+  <div class="container">
+    <span class="sticky-banner-text">Looking for our CAD automation services &amp; SolidWorks products?</span>
+    <a href="https://designmatix.co.uk" class="sticky-banner-link">
+      Visit our main site
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="container">
+    <a href="/" class="brand">
+      <img src="/assets/img/logo-small.png"
+           srcset="/assets/img/logo-small.png 1x, /assets/img/logo.png 2x"
+           alt="Designmatix" width="110" height="40">
+      <span class="brand-suffix">AI</span>
+    </a>
+    <a href="https://app.designmatix.co.uk" class="topbar-cta" target="_blank" rel="noopener">Launch app &rarr;</a>
+  </div>
+</header>
+
+<!-- PRIVACY -->
+<main>
+<section class="privacy">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Designmatix AI</a>
+      <span aria-hidden="true">/</span>
+      <a href="/texttocad/">Text-to-CAD</a>
+      <span aria-hidden="true">/</span>
+      <span>Privacy</span>
+    </nav>
+
+    <div class="privacy-wrap">
+
+      <header class="privacy-header">
+        <h1>Privacy Notice &mdash; Designmatix Text-to-CAD <em>GenAI</em></h1>
+        <dl class="privacy-meta">
+          <div class="privacy-meta-item">
+            <dt>Effective date</dt>
+            <dd>16 May 2026</dd>
+          </div>
+          <div class="privacy-meta-item">
+            <dt>Data controller</dt>
+            <dd>Designmatix Ltd. (UK Co. #12697280)</dd>
+          </div>
+          <div class="privacy-meta-item">
+            <dt>ICO registration</dt>
+            <dd class="mono">ZB483460</dd>
+          </div>
+        </dl>
+      </header>
+
+      <article class="privacy-content">
+
+        <p>
+          <strong>Data controller:</strong> Designmatix Ltd. (Company number 12697280, registered in England and Wales). ICO registration: <strong>ZB483460</strong>.<br>
+          <strong>Registered office:</strong> 71-75 Shelton Street, Covent Garden, London, WC2H 9JQ, United Kingdom.<br>
+          <strong>Contact for data protection enquiries:</strong> <a href="mailto:faizal@designmatix.co.uk">faizal@designmatix.co.uk</a>
+        </p>
+
+        <blockquote>
+          <p><strong>Canonical version:</strong> the authoritative copy of this notice is published at <a href="https://ai.designmatix.co.uk/text-to-cad/privacy">https://ai.designmatix.co.uk/text-to-cad/privacy</a>. The Markdown source of truth lives in our private application repository; the page at the URL above is generated from that source. If the two ever diverge, the canonical URL prevails.</p>
+        </blockquote>
+
+        <hr>
+
+        <h2>1. Who we are and what this notice covers</h2>
+
+        <p>Designmatix Ltd. ("Designmatix", "we", "us", or "our") is a company registered in England and Wales (company number 12697280). We operate the <strong>Designmatix Text-to-CAD</strong> service (the "Service").</p>
+
+        <p>This notice applies <strong>only</strong> to:</p>
+
+        <ul>
+          <li>The Text-to-CAD application at <strong><a href="https://app.designmatix.co.uk">https://app.designmatix.co.uk</a></strong>, and</li>
+          <li>The marketing pages for Text-to-CAD at <strong><a href="https://ai.designmatix.co.uk/text-to-cad">https://ai.designmatix.co.uk/text-to-cad</a></strong> (including the waitlist signup form hosted there).</li>
+        </ul>
+
+        <p>This notice does <strong>not</strong> cover the separate corporate / WordPress site at <a href="https://designmatix.co.uk">https://designmatix.co.uk</a>, which is governed by its own privacy notice.</p>
+
+        <h2>2. What we collect</h2>
+
+        <p>We collect the minimum data needed to operate the Service. Specifically:</p>
+
+        <h3>2.1 Email address (waitlist signups)</h3>
+
+        <p>If you choose to sign up for our waitlist via the form on <a href="https://ai.designmatix.co.uk/text-to-cad">https://ai.designmatix.co.uk/text-to-cad</a>, we collect:</p>
+
+        <ul>
+          <li>Your <strong>email address</strong></li>
+          <li>The <strong>timestamp</strong> of your signup</li>
+          <li>A <strong>double opt-in confirmation</strong> click (we email you a confirmation link; you must click it before being added to our list)</li>
+        </ul>
+
+        <p>We collect this only when you voluntarily submit the form. The form is processed by our email service provider, Kit (see Section 5).</p>
+
+        <h3>2.2 Technical data (collected automatically when using the Service)</h3>
+
+        <ul>
+          <li><strong>IP address</strong>, hashed using SHA-256 with only the first 16 characters of the hash retained. We do not store raw IP addresses. The hashed value is used solely for rate limiting (enforcing our quota of 10 generations per hour per user) and is not linked to your identity.</li>
+          <li><strong>Browser user-agent string</strong>, if recorded by the underlying web server for operational purposes.</li>
+          <li><strong>Timestamps</strong> of each generation attempt.</li>
+        </ul>
+
+        <h3>2.3 User-submitted content</h3>
+
+        <ul>
+          <li><strong>Prompts</strong> you submit to the Service (the natural-language descriptions you type).</li>
+          <li><strong>Feedback ratings</strong> (thumbs up / thumbs down) you provide on generated parts.</li>
+        </ul>
+
+        <h3>2.4 Generation metadata</h3>
+
+        <p>For each generation request we log a row to our application database containing the following operational metadata:</p>
+
+        <ul>
+          <li><strong>model</strong> &mdash; which Claude model produced the output (e.g. the primary or fallback model)</li>
+          <li><strong>success</strong> &mdash; whether the generation succeeded</li>
+          <li><strong>attempts</strong> &mdash; how many internal retries the pipeline used</li>
+          <li><strong>error</strong> &mdash; any error message returned by the pipeline (for debugging)</li>
+          <li><strong>code</strong> &mdash; the CadQuery code generated for your prompt</li>
+          <li><strong>uid</strong> &mdash; the 8-character random identifier we assign to the generated files</li>
+        </ul>
+
+        <p>This metadata is used to monitor reliability, debug failures, and improve the Service. It is retained under the same 90-day window as the rest of the generation record (see Section 7).</p>
+
+        <h3>2.5 Generated content</h3>
+
+        <ul>
+          <li><strong>CadQuery code, STEP files, and STL files</strong> produced in response to your prompts. The STEP and STL files are stored temporarily on our servers and automatically deleted after <strong>2 hours</strong>. The CadQuery source string is logged with the generation row (see 2.4) and follows the 90-day retention policy.</li>
+        </ul>
+
+        <h3>2.6 What we do NOT collect</h3>
+
+        <ul>
+          <li>We do not require you to create an account to use the core Service.</li>
+          <li>We do not collect your name, phone number, postal address, or payment information.</li>
+          <li>We do not use analytics trackers, advertising pixels, or fingerprinting beyond what is described above.</li>
+          <li>We do not use your prompts to train any AI model.</li>
+        </ul>
+
+        <h2>3. Anthropic API key handling</h2>
+
+        <p>To use the Service, you must provide an <strong>Anthropic API key</strong> (your own credential for Anthropic's Claude API). The key is:</p>
+
+        <ul>
+          <li>Used in your browser to authenticate generation requests with Anthropic's servers</li>
+          <li><strong>Never stored on our servers</strong> in any form</li>
+          <li><strong>Never logged</strong> to our application logs or database</li>
+          <li>Held only in your browser's session memory while you use the Service</li>
+        </ul>
+
+        <p>When you close your browser tab or refresh the page, your API key is discarded. We have no record of it.</p>
+
+        <h2>4. Legal basis for processing (UK GDPR Article 6)</h2>
+
+        <p>We rely on the following lawful bases:</p>
+
+        <ul>
+          <li><strong>Consent</strong> (Article 6(1)(a)) &mdash; for adding you to our waitlist email list, where you have voluntarily submitted the form and confirmed via the double opt-in link.</li>
+          <li><strong>Performance of a contract</strong> (Article 6(1)(b)) &mdash; for processing your prompts to deliver the generated CAD output you requested.</li>
+          <li><strong>Legitimate interests</strong> (Article 6(1)(f)) &mdash; for hashed IP storage (rate-limit enforcement and abuse prevention), technical logs, generation metadata used to monitor reliability, and operating the Service.</li>
+        </ul>
+
+        <h2>5. Third-party processors</h2>
+
+        <p>To deliver the Service, we share limited data with the following sub-processors:</p>
+
+        <div class="privacy-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Processor</th>
+                <th scope="col">Purpose</th>
+                <th scope="col">Data shared</th>
+                <th scope="col">Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Anthropic, PBC</strong> (Claude API)</td>
+                <td>Generates CAD code from your prompt</td>
+                <td>Your prompt text (transmitted using your API key)</td>
+                <td>USA (UK Data Protection Addendum and Standard Contractual Clauses in place)</td>
+              </tr>
+              <tr>
+                <td><strong>Hostinger International Ltd.</strong></td>
+                <td>Provides VPS hosting infrastructure and automated server snapshots for the Service</td>
+                <td>Technical logs, hashed IPs, generation requests, full server snapshots</td>
+                <td>Lithuania (EU &mdash; adequacy decision applies)</td>
+              </tr>
+              <tr>
+                <td><strong>Kit</strong> (formerly ConvertKit, by SubStack Inc.)</td>
+                <td>Manages our waitlist email list</td>
+                <td>Email address, signup timestamp</td>
+                <td>USA (UK Data Protection Addendum and Standard Contractual Clauses in place)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>We do not use any advertising, analytics, social-media, or tracking third parties.</p>
+
+        <p>Privacy notices for our processors:</p>
+
+        <ul>
+          <li>Anthropic: <a href="https://www.anthropic.com/legal/privacy">https://www.anthropic.com/legal/privacy</a></li>
+          <li>Hostinger: <a href="https://www.hostinger.com/privacy-policy">https://www.hostinger.com/privacy-policy</a></li>
+          <li>Kit: <a href="https://kit.com/privacy">https://kit.com/privacy</a></li>
+        </ul>
+
+        <h2>6. International transfers</h2>
+
+        <p>Some of your data is transmitted outside the United Kingdom:</p>
+
+        <ul>
+          <li><strong>Prompts</strong> are transmitted to Anthropic's servers in the United States.</li>
+          <li><strong>Email addresses</strong> (if you sign up for the waitlist) are stored on Kit's servers in the United States.</li>
+        </ul>
+
+        <p>Transfers outside the UK rely on:</p>
+
+        <ul>
+          <li>The processor's Data Processing Addendum incorporating Standard Contractual Clauses (SCCs); and</li>
+          <li>Our assessment that each transfer provides appropriate safeguards as required under UK GDPR Article 46.</li>
+        </ul>
+
+        <p>Your data within the EU (Hostinger, Lithuania) is covered by the EU adequacy decision for the United Kingdom and does not require additional safeguards.</p>
+
+        <h2>7. Data retention</h2>
+
+        <div class="privacy-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Retention</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Generated STEP/STL files</td>
+                <td>Deleted automatically after 2 hours (file TTL on disk)</td>
+              </tr>
+              <tr>
+                <td>Generation record (prompt, hashed IP, generation metadata per Section 2.4, CadQuery code, feedback rating)</td>
+                <td>Retained for up to 90 days, then deleted. Enforced daily by the <code>designmatix-purge.timer</code> systemd unit, which runs a hardened oneshot service that deletes rows older than 90 days from the <code>generations</code> and <code>feedback</code> tables and reclaims free pages via <code>VACUUM</code>.</td>
+              </tr>
+              <tr>
+                <td>Hostinger automated server snapshots</td>
+                <td>Snapshots of the VPS filesystem (which may transiently contain database rows that have already been purged at application level) are retained by Hostinger under their standard backup schedule, typically up to 7 days, before being overwritten. We do not retain snapshots beyond this.</td>
+              </tr>
+              <tr>
+                <td>Technical error logs</td>
+                <td>Retained for up to 30 days</td>
+              </tr>
+              <tr>
+                <td>Email address (waitlist)</td>
+                <td>Retained until you unsubscribe; you can unsubscribe at any time via the link in any email we send you</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>8. Cookies and similar technologies</h2>
+
+        <p>The Service itself uses only <strong>session cookies</strong> required to keep your browser session active while you use the application. These are deleted when you close your browser.</p>
+
+        <p>The waitlist form embedded on our marketing site is provided by Kit and may set cookies for <strong>spam protection (reCAPTCHA)</strong> and to remember whether you have already submitted the form. These cookies are governed by Kit's privacy notice (linked above) and are functional, not advertising.</p>
+
+        <p>We do not use Google Analytics, Facebook Pixel, or any other analytics or advertising cookies.</p>
+
+        <h2>9. Your rights under UK GDPR</h2>
+
+        <p>You have the right to:</p>
+
+        <ul>
+          <li><strong>Access</strong> your personal data and receive a copy.</li>
+          <li><strong>Rectify</strong> inaccurate data.</li>
+          <li><strong>Erase</strong> your data ("right to be forgotten"), subject to our legal obligations.</li>
+          <li><strong>Restrict or object</strong> to our processing.</li>
+          <li><strong>Data portability</strong> &mdash; receive your data in a machine-readable format.</li>
+          <li><strong>Withdraw consent</strong> where consent is the lawful basis (e.g., your waitlist signup).</li>
+          <li><strong>Lodge a complaint</strong> with the UK Information Commissioner's Office (ICO) at <a href="https://ico.org.uk">https://ico.org.uk</a> or by calling 0303 123 1113.</li>
+        </ul>
+
+        <p>For most of our data (hashed IPs, anonymised logs), we may not be able to identify your specific records from an access or erasure request without additional information (such as the approximate time of use and the original IP address). For waitlist email addresses, you can simply send us your email address and we will action your request.</p>
+
+        <p>To exercise any right, email <strong><a href="mailto:faizal@designmatix.co.uk">faizal@designmatix.co.uk</a></strong>.</p>
+
+        <h2>10. Security</h2>
+
+        <p>We take reasonable technical and organisational measures to protect personal data, including:</p>
+
+        <ul>
+          <li>HTTPS encryption in transit (TLS 1.3 or above)</li>
+          <li>Hashed (not raw) IP storage</li>
+          <li>Automatic STEP/STL file deletion after 2 hours</li>
+          <li><strong>Automatic database retention purge after 90 days</strong>, enforced by the <code>designmatix-purge.timer</code> systemd unit (daily run, randomised within a 5-minute window, with <code>Persistent=true</code> so a missed run on a rebooted host catches up)</li>
+          <li>Application and purge processes run under a dedicated unprivileged Linux user (<code>designmatix</code>) with <strong>systemd hardening</strong>: <code>NoNewPrivileges</code>, <code>PrivateTmp</code>, <code>ProtectSystem=strict</code>, <code>ProtectHome=read-only</code>, restrictive <code>ReadWritePaths</code>, <code>ProtectKernelTunables/Modules/Logs</code>, and <code>ProtectControlGroups</code>. The purge service additionally runs with <code>PrivateNetwork=true</code> since it requires no network access.</li>
+          <li>API keys stored as environment secrets, not in source code</li>
+          <li>Server access controlled by SSH key authentication, not passwords</li>
+        </ul>
+
+        <p>No system can be guaranteed secure. If we become aware of a personal-data breach likely to result in risk to your rights, we will notify the ICO within 72 hours as required by UK GDPR Article 33, and notify affected individuals where required.</p>
+
+        <h2>11. Children</h2>
+
+        <p>The Service is not directed to children under 18. We do not knowingly collect personal data from children. If you believe we have inadvertently collected data from a child, please contact us at <a href="mailto:faizal@designmatix.co.uk">faizal@designmatix.co.uk</a> and we will delete it.</p>
+
+        <h2>12. Changes to this notice</h2>
+
+        <p>We may update this notice from time to time to reflect changes in our practices or legal requirements. The effective date at the top will be updated and material changes will be notified via the Service interface or by email (for waitlist subscribers).</p>
+
+        <h2>13. Contact</h2>
+
+        <p><strong>Data protection enquiries:</strong><br>
+        Email: <a href="mailto:faizal@designmatix.co.uk">faizal@designmatix.co.uk</a></p>
+
+        <address class="address-block">
+          <strong>Designmatix Ltd.</strong><br>
+          71-75 Shelton Street<br>
+          Covent Garden<br>
+          London WC2H 9JQ<br>
+          United Kingdom
+        </address>
+
+        <p>
+          Company number: 12697280<br>
+          ICO registration number: <strong>ZB483460</strong>
+        </p>
+
+        <div class="privacy-footer-note">Last updated: 16 May 2026</div>
+
+      </article>
+
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="/assets/img/logo-small.png"
+               srcset="/assets/img/logo-small.png 1x, /assets/img/logo.png 2x"
+               alt="Designmatix" width="110" height="40">
+          <span class="brand-suffix">AI</span>
+        </div>
+        <p class="footer-tagline">Engineering tools for the AI era. Part of Designmatix Ltd., UK-based design automation.</p>
+        <div class="footer-contact">
+          <a href="mailto:support@designmatix.co.uk">support@designmatix.co.uk</a><br>
+          UK +44 (0) 20 8865 1947
+        </div>
+      </div>
+      <div>
+        <h4>AI Products</h4>
+        <ul>
+          <li><a href="/">Designmatix AI</a></li>
+          <li><a href="/texttocad/">Text-to-CAD</a></li>
+          <li><a href="https://app.designmatix.co.uk">Launch app</a></li>
+          <li><a href="https://designmatix-ltd.kit.com/2ea67ac7f4" target="_blank" rel="noopener">Get updates</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Main Site</h4>
+        <ul>
+          <li><a href="https://designmatix.co.uk">Home</a></li>
+          <li><a href="https://designmatix.co.uk/about-us/">About</a></li>
+          <li><a href="https://designmatix.co.uk/blog/">Blog</a></li>
+          <li><a href="https://designmatix.co.uk/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li>Designmatix Ltd.</li>
+          <li>UK Co. #12697280</li>
+          <li>71-75 Shelton St,<br>London WC2H 9JQ</li>
+          <li><a href="/text-to-cad/privacy">Privacy Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Designmatix Ltd. All rights reserved.</span>
+      <span><a href="https://designmatix.co.uk">designmatix.co.uk</a> &middot; <a href="https://app.designmatix.co.uk">app.designmatix.co.uk</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
