@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designmatix Companion — Edit Text-to-CAD bundles on your desktop</title>
+<meta name="description" content="Designmatix Companion is a Windows desktop app that opens Text-to-CAD bundles. Edit parameters, regenerate STEP files locally, and open in the CAD tool you already use.">
+
+<meta property="og:title" content="Designmatix Companion v1.5">
+<meta property="og:description" content="Open your Text-to-CAD bundles on Windows. Edit parameters. Regenerate STEP files. Open in your CAD tool.">
+<meta property="og:url" content="https://ai.designmatix.co.uk/texttocad/companion">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ai.designmatix.co.uk/assets/img/companion/SW-5.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Designmatix Companion v1.5">
+<meta name="twitter:description" content="Open your Text-to-CAD bundles on Windows. Edit live, regenerate STEP locally.">
+
+<!-- Favicons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<link rel="manifest" href="/site.webmanifest?v=2">
+<meta name="theme-color" content="#1E3AE8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #1E3AE8;
+  --blue-dark: #1730bd;
+  --blue-soft: #eef0ff;
+  --red: #E8251E;
+  --ink: #0a0e1a;
+  --paper: #fafaf7;
+  --paper-warm: #f3f1ea;
+  --line: #1a1f2e;
+  --muted: #6b7280;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Inter Tight', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(10,14,26,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10,14,26,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, section, header, footer { position: relative; z-index: 1; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* STICKY BANNER */
+.sticky-banner {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 0;
+  font-size: 14px;
+  position: relative;
+  z-index: 50;
+}
+
+.sticky-banner .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sticky-banner-text { color: rgba(250,250,247,0.85); }
+
+.sticky-banner-link {
+  font-weight: 600;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sticky-banner-link:hover {
+  background: white;
+  color: var(--ink);
+}
+
+/* TOPBAR */
+.topbar {
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+  padding: 12px 0;
+  background: rgba(250,250,247,0.85);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-suffix {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--blue);
+  padding: 3px 8px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+  margin-left: 4px;
+}
+
+.topbar-cta {
+  font-weight: 600;
+  font-size: 14px;
+  padding: 9px 18px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.topbar-cta:hover { background: var(--blue); }
+
+.breadcrumb {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb a { color: var(--blue); }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* HERO */
+.hero { padding: 48px 0 48px; }
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 20px;
+  padding: 6px 12px;
+  background: var(--blue-soft);
+  border-radius: 100px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(44px, 7vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  max-width: 16ch;
+  margin-bottom: 20px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--blue);
+}
+
+.hero-lead {
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.5;
+  max-width: 60ch;
+  color: rgba(10,14,26,0.75);
+  margin-bottom: 24px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 18px 32px;
+  background: var(--blue);
+  color: white;
+  border-radius: 4px;
+  transition: all 0.2s;
+  border: 2px solid var(--blue);
+}
+
+.btn-primary:hover {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -8px rgba(30,58,232,0.4);
+}
+
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(4px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+  padding: 12px 4px;
+  border-bottom: 1.5px solid var(--ink);
+  transition: color 0.2s;
+}
+
+.btn-secondary:hover { color: var(--blue); border-color: var(--blue); }
+
+/* HERO PILLARS */
+.pillars {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.pillar-label {
+  font-family: var(--mono);
+  font-size: clamp(16px, 1.2vw, 18px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 14px;
+}
+
+.pillar h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(28px, 2.9vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 14px;
+}
+
+.pillar p {
+  font-size: clamp(17px, 1.4vw, 19px);
+  line-height: 1.5;
+  color: rgba(10,14,26,0.72);
+}
+
+/* HERO SHOWCASE — single static image, no carousel; aligned to container width */
+.showcase {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 32px;
+}
+
+.showcase-frame {
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--paper-warm);
+  box-shadow:
+    0 1px 0 rgba(10,14,26,0.04),
+    0 30px 60px -20px rgba(10,14,26,0.15);
+}
+
+.showcase-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.showcase-caption {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 16px;
+  text-align: center;
+}
+
+/* SECTION HEADERS */
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: clamp(16px, 1.2vw, 18px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.section-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1.5px;
+  background: var(--blue);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  max-width: 16ch;
+}
+
+.section-header { margin-bottom: 64px; }
+
+/* HOW IT WORKS — stacked rows, screenshot beside each step */
+.how {
+  padding: 100px 0;
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.workflow {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  margin-top: 56px;
+}
+
+.workflow-step {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.workflow-step.reverse {
+  grid-template-columns: 1.3fr 1fr;
+}
+
+.workflow-step.reverse .workflow-text { order: 2; }
+.workflow-step.reverse .workflow-shot { order: 1; }
+
+.workflow-num {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 96px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--blue);
+  opacity: 0.15;
+  margin-bottom: -28px;
+}
+
+.workflow-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.workflow-desc {
+  color: rgba(10,14,26,0.7);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.workflow-desc code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.workflow-shot {
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper-warm);
+  border: 1px solid rgba(10,14,26,0.08);
+  box-shadow: 0 20px 40px -20px rgba(10,14,26,0.18);
+}
+
+.workflow-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* VARIATION CALLOUT */
+.variation {
+  margin-top: 80px;
+  padding: 40px;
+  background: var(--paper-warm);
+  border: 1px solid rgba(10,14,26,0.08);
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.variation-text h4 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.variation-text p {
+  color: rgba(10,14,26,0.7);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.variation-shot {
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid rgba(10,14,26,0.08);
+}
+
+.variation-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* WHY */
+.why {
+  padding: 100px 0;
+  background: var(--paper-warm);
+  border-top: 1px solid rgba(10,14,26,0.08);
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.why-points { display: flex; flex-direction: column; gap: 32px; }
+
+.why-point {
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(10,14,26,0.08);
+}
+
+.why-point:last-child { border-bottom: none; padding-bottom: 0; }
+
+.why-point h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 24px;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.why-point p {
+  color: rgba(10,14,26,0.7);
+  line-height: 1.6;
+}
+
+/* DOWNLOAD CTA */
+.download {
+  padding: 120px 0;
+  background: var(--ink);
+  color: var(--paper);
+  text-align: center;
+}
+
+.download .section-eyebrow {
+  color: #8aa0ff;
+  justify-content: center;
+}
+.download .section-eyebrow::before { background: #8aa0ff; }
+
+.download h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(36px, 5.5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+  margin: 0 auto 24px;
+}
+
+.download h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: #8aa0ff;
+}
+
+.download-lead {
+  font-size: 18px;
+  color: rgba(250,250,247,0.7);
+  max-width: 52ch;
+  margin: 0 auto 48px;
+  line-height: 1.55;
+}
+
+.download-card {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+.btn-download {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 22px 32px;
+  background: var(--blue);
+  color: white;
+  border-radius: 6px;
+  transition: all 0.2s;
+  border: 2px solid var(--blue);
+}
+
+.btn-download:hover {
+  background: var(--blue-dark);
+  border-color: var(--blue-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 40px -10px rgba(30,58,232,0.5);
+}
+
+.btn-download svg { flex-shrink: 0; }
+
+.download-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: rgba(250,250,247,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* SMARTSCREEN NOTE — directly below download button, readable, not buried */
+.smartscreen-note {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: rgba(232,37,30,0.08);
+  border-left: 3px solid var(--red);
+  border-radius: 4px;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(250,250,247,0.9);
+}
+
+.smartscreen-note strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #ff8a85;
+  margin-bottom: 8px;
+}
+
+.smartscreen-note code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: rgba(255,255,255,0.08);
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: var(--paper);
+}
+
+/* CROSS-PROMO BACK TO TTC */
+.crosspromo {
+  padding: 80px 0;
+  background: var(--paper-warm);
+  border-top: 1px solid rgba(10,14,26,0.08);
+}
+
+.crosspromo-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.crosspromo-content h3 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.crosspromo-content p {
+  color: rgba(10,14,26,0.7);
+  margin-bottom: 24px;
+}
+
+.crosspromo-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 24px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.crosspromo-cta:hover {
+  background: var(--blue);
+  transform: translateY(-1px);
+}
+
+/* FOOTER */
+.footer {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding: 64px 0 32px;
+  font-size: 14px;
+  color: var(--muted);
+  background: white;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.footer-brand {
+  font-family: var(--serif);
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-tagline {
+  max-width: 36ch;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.footer-contact { font-size: 13px; line-height: 1.6; }
+.footer-contact a { color: var(--muted); }
+.footer-contact a:hover { color: var(--blue); }
+
+.footer h4 {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.footer ul { list-style: none; }
+.footer li { margin-bottom: 10px; }
+.footer a { color: var(--muted); transition: color 0.2s; }
+.footer a:hover { color: var(--blue); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(10,14,26,0.08);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 13px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .container { padding: 0 24px; }
+  .hero { padding: 32px 0 32px; }
+  .hero h1 { font-size: 48px; }
+  .pillars { grid-template-columns: 1fr; gap: 24px; margin-top: 28px; padding-top: 20px; }
+  .workflow { gap: 56px; }
+  .workflow-step,
+  .workflow-step.reverse { grid-template-columns: 1fr; gap: 32px; }
+  .workflow-step.reverse .workflow-text { order: 1; }
+  .workflow-step.reverse .workflow-shot { order: 2; }
+  .variation { grid-template-columns: 1fr; padding: 28px; }
+  .why-grid, .crosspromo-grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .topbar-cta { padding: 8px 14px; font-size: 13px; }
+  .sticky-banner-text { display: none; }
+  .sticky-banner .container { justify-content: center; }
+  .showcase { margin-bottom: 56px; padding: 0 24px; }
+}
+
+@media (max-width: 540px) {
+  .hero h1 { font-size: 40px; }
+  .footer-top { grid-template-columns: 1fr; }
+  .btn-primary, .btn-download { width: 100%; justify-content: center; padding: 16px 24px; }
+  .btn-secondary { width: 100%; justify-content: center; }
+  .workflow-num { font-size: 72px; margin-bottom: -22px; }
+  .workflow-title { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY BANNER -->
+<div class="sticky-banner">
+  <div class="container">
+    <span class="sticky-banner-text">Looking for our CAD automation services & SolidWorks products?</span>
+    <a href="https://designmatix.co.uk" class="sticky-banner-link">
+      Visit our main site
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="container">
+    <a href="/" class="brand">
+      <img src="/assets/img/logo-small.png"
+           srcset="/assets/img/logo-small.png 1x, /assets/img/logo.png 2x"
+           alt="Designmatix" width="110" height="40">
+      <span class="brand-suffix">AI</span>
+    </a>
+    <a href="https://app.designmatix.co.uk" class="topbar-cta" target="_blank" rel="noopener">Launch app →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/">Designmatix AI</a> / <a href="/texttocad/">Text-to-CAD</a> / Companion
+    </div>
+
+    <div class="hero-eyebrow">New · v1.5 for Windows</div>
+
+    <h1>Your parameters. Your geometry. Your <em>machine</em>.</h1>
+
+    <p class="hero-lead">
+      Designmatix Companion is a Windows desktop app that opens the Python+JSON bundles generated by Text-to-CAD. Edit any parameter in a form, regenerate the STEP file locally in seconds, then open it in the CAD tool you already use.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#download" class="btn-primary">
+        Download for Windows
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">See how it works</a>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-label">01 — Workflow continuity</div>
+        <h3>Fits the tools you already own.</h3>
+        <p>Generate in the browser, edit on your desktop, open in SolidWorks, Fusion, FreeCAD. No new CAD platform to learn.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-label">02 — Auditability</div>
+        <h3>Real Python you can read.</h3>
+        <p>Every bundle ships with the CadQuery script that built the geometry. Inspect it, run it, modify it.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-label">03 — IP control</div>
+        <h3>Offline by default.</h3>
+        <p>Regenerate STEP files locally against your own bundle. No round-trips. Your geometry stays on your machine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERO SHOWCASE — single static image, the workflow-completion shot -->
+<section class="showcase" aria-label="Generated STEP file open in SolidWorks">
+  <div class="showcase-frame">
+    <img src="/assets/img/companion/SW-5.jpg"
+         alt="A 20-tooth involute gear with bore and keyway — generated by Text-to-CAD, regenerated by Designmatix Companion, opened in SolidWorks as a real solid model"
+         width="1920" height="1080"
+         loading="eager" fetchpriority="high" decoding="async">
+  </div>
+  <p class="showcase-caption">The end of the workflow — your regenerated STEP file, open in SolidWorks</p>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">Three steps, browser to CAD.</h2>
+    </div>
+
+    <div class="workflow">
+
+      <div class="workflow-step">
+        <div class="workflow-text">
+          <div class="workflow-num">01</div>
+          <h3 class="workflow-title">Generate in the browser.</h3>
+          <p class="workflow-desc">
+            Use the Text-to-CAD web app to describe what you need in plain English. Designmatix returns a CadQuery Python script plus a JSON parameter manifest — the <code>.dxbundle</code>. Save it anywhere on your machine.
+          </p>
+        </div>
+        <div class="workflow-shot">
+          <img src="/assets/img/companion/TTCWeb1.jpg"
+               alt="The Text-to-CAD web app with a prompt describing a 20-tooth involute gear and the generated CadQuery Python code visible alongside"
+               loading="lazy" decoding="async">
+        </div>
+      </div>
+
+      <div class="workflow-step reverse">
+        <div class="workflow-text">
+          <div class="workflow-num">02</div>
+          <h3 class="workflow-title">Open in Companion.</h3>
+          <p class="workflow-desc">
+            Drop the bundle into the desktop app. Companion reads the manifest and renders an editable form — one input for every variable in the script. Change the tooth count, the bore diameter, the keyway width. Hit regenerate and the STEP file rebuilds locally.
+          </p>
+        </div>
+        <div class="workflow-shot">
+          <img src="/assets/img/companion/DXCompanion-4.jpg"
+               alt="Designmatix Companion desktop app showing a parameter form with editable fields and a 'STEP generated' confirmation output"
+               loading="lazy" decoding="async">
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="workflow-text">
+          <div class="workflow-num">03</div>
+          <h3 class="workflow-title">Inspect and iterate.</h3>
+          <p class="workflow-desc">
+            Open the regenerated STEP in your CAD tool of choice, or pop the underlying Python into CQ-editor to see exactly what built the geometry. Tweak the script directly if you want — it's plain CadQuery, readable and runnable.
+          </p>
+        </div>
+        <div class="workflow-shot">
+          <img src="/assets/img/companion/CQEditor2.jpg"
+               alt="The generated CadQuery Python opened in CQ-editor, rendering the 20-tooth involute gear in the 3D viewport"
+               loading="lazy" decoding="async">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- VARIATION CALLOUT — one bundle, many parts -->
+    <aside class="variation" aria-label="Parametric variation example">
+      <div class="variation-text">
+        <h4>One script. Many variations.</h4>
+        <p>The same bundle, with different parameter values, produces a different part — no re-prompting, no new generation, no token spend. Edit the form, hit regenerate, you get a new STEP.</p>
+      </div>
+      <div class="variation-shot">
+        <img src="/assets/img/companion/CQEditor3.jpg"
+             alt="The same CadQuery script regenerated with different parameter values, producing a variant gear geometry"
+             loading="lazy" decoding="async">
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="container">
+    <div class="why-grid">
+      <div class="section-header" style="margin-bottom: 0;">
+        <div class="section-eyebrow">Why a desktop app</div>
+        <h2 class="section-title">Real artifacts. Yours to keep.</h2>
+      </div>
+
+      <div class="why-points">
+        <div class="why-point">
+          <h3>The Python source is yours.</h3>
+          <p>Every bundle includes the CadQuery script that built the model. Read it, run it, modify it, version-control it alongside the rest of your project. The script is the recipe — and the recipe is in your hands, not behind a vendor's API.</p>
+        </div>
+        <div class="why-point">
+          <h3>No mesh-only black box.</h3>
+          <p>The output is a real STEP file (ISO 10303) — parametric solid geometry, not a triangle soup. Open it in SolidWorks, Fusion, FreeCAD, NX, Catia. Add it to assemblies. Send it to manufacturing. It's a first-class CAD artifact, indistinguishable from one a human modeller would produce.</p>
+        </div>
+        <div class="why-point">
+          <h3>Offline regeneration, by default.</h3>
+          <p>Once you have the bundle, Companion regenerates the STEP locally on your machine. No cloud round-trips for each parameter change. No telemetry. Your geometry and your iteration history stay where you put them.</p>
+        </div>
+        <div class="why-point">
+          <h3>A bundle is a versionable file.</h3>
+          <p>The <code style="font-family:var(--mono);font-size:14px;background:var(--blue-soft);color:var(--blue-dark);padding:1px 6px;border-radius:3px;">.dxbundle</code> is a real artifact — script plus parameters, plain text, diff-able. Commit it next to your drawings. Branch it. Review it in a PR. It's not a vendor blob, it's a file.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD CTA — prominent button, SmartScreen note immediately below -->
+<section class="download" id="download">
+  <div class="container">
+    <div class="section-eyebrow">Download</div>
+    <h2>Get Companion <em>v1.5</em> for Windows.</h2>
+    <p class="download-lead">Free during the v1.5 beta. Runs on Windows 10 and 11. Pairs with any Text-to-CAD bundle generated at app.designmatix.co.uk.</p>
+
+    <div class="download-card">
+      <a href="https://app.designmatix.co.uk/companion/DesignmatixCompanion-1.5.0-Setup.exe" class="btn-download">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download Companion 1.5.0 (Windows)
+      </a>
+      <div class="download-meta">v1.5.0 · Released 2026-05-26 · Windows 10/11 · ~installer</div>
+
+      <div class="smartscreen-note">
+        <strong>Heads up · Windows SmartScreen</strong>
+        Designmatix Companion v1.5 is currently unsigned. Windows will show an <code>Unknown publisher</code> warning when you run the installer — click <code>More info</code> → <code>Run anyway</code> to proceed. A signed build (v1.5.1) ships within two weeks.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS-PROMO BACK TO TEXT-TO-CAD -->
+<section class="crosspromo">
+  <div class="container">
+    <div class="crosspromo-grid">
+      <div class="section-eyebrow">Pairs with</div>
+      <div class="crosspromo-content">
+        <h3>Don't have a Text-to-CAD bundle yet?</h3>
+        <p>Companion only does half the job — it edits and regenerates bundles. To <em>create</em> a bundle you describe what you want in the Text-to-CAD web app and it returns the CadQuery script plus parameter manifest. No signup, free during beta, runs in your browser.</p>
+        <a href="/texttocad/" class="crosspromo-cta">
+          Open Text-to-CAD
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <img src="/assets/img/logo-small.png"
+               srcset="/assets/img/logo-small.png 1x, /assets/img/logo.png 2x"
+               alt="Designmatix" width="110" height="40">
+          <span class="brand-suffix">AI</span>
+        </div>
+        <p class="footer-tagline">Engineering tools for the AI era. Part of Designmatix Ltd., UK-based design automation.</p>
+        <div class="footer-contact">
+          <a href="mailto:support@designmatix.co.uk">support@designmatix.co.uk</a><br>
+          UK +44 (0) 20 8865 1947
+        </div>
+      </div>
+      <div>
+        <h4>AI Products</h4>
+        <ul>
+          <li><a href="/">Designmatix AI</a></li>
+          <li><a href="/texttocad/">Text-to-CAD</a></li>
+          <li><a href="/texttocad/companion/">Companion v1.5</a></li>
+          <li><a href="https://app.designmatix.co.uk">Launch app</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Main Site</h4>
+        <ul>
+          <li><a href="https://designmatix.co.uk">Home</a></li>
+          <li><a href="https://designmatix.co.uk/about-us/">About</a></li>
+          <li><a href="https://designmatix.co.uk/blog/">Blog</a></li>
+          <li><a href="https://designmatix.co.uk/contact/">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li>Designmatix Ltd.</li>
+          <li>UK Co. #12697280</li>
+          <li>71-75 Shelton St,<br>London WC2H 9JQ</li>
+          <li><a href="/text-to-cad/privacy">Privacy Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Designmatix Ltd. All rights reserved.</span>
+      <span><a href="https://designmatix.co.uk">designmatix.co.uk</a> · <a href="https://app.designmatix.co.uk">app.designmatix.co.uk</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
